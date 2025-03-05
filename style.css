@@ -1,0 +1,81 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 1rem;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+}
+
+.menu {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+}
+
+.menu__contents {
+    width: calc(50% - 60px);
+    height: 500px;
+    margin: 30px;
+}
+
+.hr-with-text {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.hr-with-text::before,
+.hr-with-text::after {
+    content: '';
+    flex: 1;
+    border-top: 1px solid white;
+}
+
+.hr-with-text h3 {
+    padding: 0 10px;
+}
+
+#date {
+    font-size: 1.2rem;
+}
+
+#clock {
+    font-size: 5rem;
+    margin-top: 20px;
+}
+
+#weather {
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+.weather-icon {
+    font-size: 2em;
+    margin-right: 10px;
+}
+
+#todo {
+    font-size: 1.3rem;
+    text-align: left;
+}
+
+#news-container {
+    margin-top: 20px;
+    height: 80%;
+    /* ニュース欄の高さ */
+    overflow: hidden;
+    /* はみ出た部分を隠す */
+    position: relative;
+}
+
+#news-list {
+    width: 100%;
+    position: absolute;
+}
