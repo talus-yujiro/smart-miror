@@ -12,41 +12,21 @@ body {
     height: calc(100% - 2rem);
 }
 
-.menu {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: row;
-}
-
-.menu__contents {
-    width: calc(50% - 60px);
-    height: 500px;
-    margin: 30px;
-}
-
-.hr-with-text {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 20px 0;
-}
-
-.hr-with-text::before,
-.hr-with-text::after {
-    content: '';
-    flex: 1;
-    border-top: 1px solid white;
-}
-
-.hr-with-text h3 {
-    padding: 0 10px;
+.information {
+    position: fixed;
+    top: 5%;
+    left: 5%;
+    color: #000000;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 2rem;
+    border-radius: 1rem;
 }
 
 #date {
     font-size: 1.2rem;
 }
 
-#clock {
+#time {
     font-size: 5rem;
     margin-top: 20px;
 }
@@ -66,6 +46,15 @@ body {
     text-align: left;
 }
 
+#todo label {
+    line-height: 2.5rem;
+}
+
+#todo input {
+    transform: scale(2);
+    margin-right: 1rem;
+}
+
 #news-container {
     margin-top: 20px;
     height: 80%;
@@ -78,4 +67,41 @@ body {
 #news-list {
     width: 100%;
     position: absolute;
+}
+
+.tab-container {
+    position: fixed;
+    width: 40%;
+    height: 40%;
+    bottom: 5%;
+    right: 5%;
+    color: #000000;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 1rem;
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+
+    -ms-overflow-style: none;
+    /* IE・Edge */
+    scrollbar-width: none;
+}
+
+.tab-container::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari */
+}
+
+.tab-content {
+    display: flex;
+    width: 200%;
+    /* 2つのタブ分 */
+}
+
+.tab {
+    scroll-snap-align: start;
+    min-width: 40vw;
+    padding: 2rem;
 }

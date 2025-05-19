@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <title>スマートミラー</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <h2>新しいタスクを追加</h2>
+    <input type="text" id="task-input" placeholder="タスクを入力">
+    <button id="submit">追加</button>
+    <p class="message" id="message"></p>
+    <div id="todo-list"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script type="module">
+        const supabaseUrl = " https://ksvdggybgpwfivohbxgn.supabase.co";
+        const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtzdmRnZ3liZ3B3Zml2b2hieGduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA5NTUwMjYsImV4cCI6MjA1NjUzMTAyNn0.Q69y-106Q-bNmigGR4D431KSjBShR8Rw5_DMAQaKN3U";
+        const db = supabase.createClient(supabaseUrl, supabaseAnonKey);
+
+        async function fetchTodo() {
+            try {
+                const { data } = await db
+                    .from("todos")
+                    .select("*")
+                    .order("created_at", { ascending: false });
+                const todoContainer = document.getElementById("todo-list");
+                todoContainer.innerHTML = ""; // Clear existing todos
+                data.forEach(todo => {
+                    const todoItem = document.createElement("div");
+                    todoItem.className = "todo-item";
+                    todoItem.innerHTML = `
+                        <input type="checkbox" ${todo.completed ? "checked" : ""} disabled>
+                        <span>${todo.title}</span>
+                    `;
+                    todoContainer.appendChild(todoItem);
+                });
+            } catch (err) {
+                console.error("Unexpected error:", err);
+            }
+        }
+
+        async function addTodo() {
+            const input = document.getElementById("task-input");
+            const message = document.getElementById("message");
+            const title = input.value.trim();
+
+            if (!title) {
+                message.textContent = "タスクを入力してください";
+                message.style.color = "red";
+                return;
+            }
+
+            const { data, error } = await db.from("todos").insert([
+                { title: title, completed: false }
+            ]);
+
+            if (error) {
+                console.error("追加エラー:", error);
+                message.textContent = "追加に失敗しました";
+                message.style.color = "red";
+            } else {
+                message.textContent = "追加しました！";
+                message.style.color = "green";
+                input.value = "";
+            }
+            fetchTodo();
+        }
+
+        document.getElementById("submit").addEventListener("click", addTodo);
+        document.getElementById("task-input").addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+                addTodo();
+            }
+        });
+        fetchTodo();
+    </script>
+</body>
+
+</html>
